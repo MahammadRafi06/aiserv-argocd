@@ -1,9 +1,7 @@
 name: Image
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,7 +17,6 @@ jobs:
     outputs:
       image-tag: ${{ steps.image.outputs.tag }}
       ghcr_image_name: ${{ steps.image.outputs.ghcr_image_name }}
-      ghcr_repo: ${{ steps.image.outputs.ghcr_repo }}
       docker_image_name: ${{ steps.image.outputs.docker_image_name }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -31,8 +28,10 @@ jobs:
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           GHCR_NAMESPACE=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           echo "ghcr_repo=ghcr.io/$GHCR_NAMESPACE" >> $GITHUB_OUTPUT
-          echo "ghcr_image_name=ghcr.io/$GHCR_NAMESPACE:$TAG" >> $GITHUB_OUTPUT
-          echo "docker_image_name=mahammadrafireesh/aiserv-argocd:$TAG" >> $GITHUB_OUTPUT
+          echo "ghcr_image_name=ghcr.io/$GHCR_NAMESPACE:$TAG
+ghcr.io/$GHCR_NAMESPACE:latest" >> $GITHUB_OUTPUT
+          echo "docker_image_name=mahammadrafireesh/aiserv-argocd:$TAG
+mahammadrafireesh/aiserv-argocd:latest" >> $GITHUB_OUTPUT
 
   build-and-publish:
     needs: [set-vars]

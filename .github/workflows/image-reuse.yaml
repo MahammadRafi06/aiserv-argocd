@@ -9,9 +9,6 @@ on:
       ghcr_image_name:
         required: false
         type: string
-      ghcr_cache_repo:
-        required: false
-        type: string
       docker_image_name:
         required: false
         type: string
@@ -99,8 +96,8 @@ jobs:
           target: ${{ inputs.target }}
           provenance: false
           sbom: false
-          cache-from: type=registry,ref=${{ inputs.ghcr_cache_repo }}:buildcache
-          cache-to: ${{ inputs.push && format('type=registry,ref={0}:buildcache,mode=max', inputs.ghcr_cache_repo) || '' }}
+          cache-from: type=gha,scope=buildkit
+          cache-to: type=gha,scope=buildkit,mode=max
           build-args: |
             GIT_TAG=${{ env.GIT_TAG }}
             GIT_COMMIT=${{ env.GIT_COMMIT }}
