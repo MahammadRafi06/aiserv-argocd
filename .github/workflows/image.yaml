@@ -45,7 +45,7 @@ jobs:
           # Calculate image names with defaults
           IMAGE_NAMESPACE="${{ vars.IMAGE_NAMESPACE || 'argoproj' }}"
           IMAGE_REPOSITORY="${{ vars.IMAGE_REPOSITORY || 'argocd' }}"
-          GHCR_NAMESPACE="${{ vars.GHCR_NAMESPACE || github.repository }}"
+          GHCR_NAMESPACE=$(echo "${{ vars.GHCR_NAMESPACE || github.repository }}" | tr '[:upper:]' '[:lower:]')
           GHCR_REPOSITORY="${{ vars.GHCR_REPOSITORY || 'argocd' }}"
           
           echo "image_namespace=$IMAGE_NAMESPACE" >> $GITHUB_OUTPUT
