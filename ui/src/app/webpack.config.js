@@ -75,7 +75,10 @@ const config = {
             patterns: [
                 {
                     from: 'node_modules/argo-ui/src/assets',
-                    to: 'assets'
+                    to: 'assets',
+                    globOptions: {
+                        ignore: ['**/favicon/**', '**/images/logo.png']
+                    }
                 },
                 {
                     from: 'src/assets',
